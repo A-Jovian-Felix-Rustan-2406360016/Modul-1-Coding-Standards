@@ -63,4 +63,65 @@ class ProductRepositoryTest {
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testEditProductSuccess() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Old");
+        product.setProductQuantity(5);
+        productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        updatedProduct.setProductName("New");
+        updatedProduct.setProductQuantity(20);
+
+        Product result = productRepository.edit(updatedProduct);
+
+        assertNotNull(result);
+        assertEquals("New", result.getProductName());
+        assertEquals(20, result.getProductQuantity());
+    }
+
+    @Test
+    void testEditProductNotFound() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Null");
+        product.setProductQuantity(3);
+
+        Product result = productRepository.edit(product);
+
+        assertNull(result);
+    }
+
+    @Test
+    void testDeleteProductSuccess() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Deleted");
+        product.setProductQuantity(5);
+        productRepository.create(product);
+
+        productRepository.delete("eb558e9f-1c39-460e-8860-71af6af63bd6");
+
+        assertNull(productRepository.findById("eb558e9f-1c39-460e-8860-71af6af63bd6"));
+    }
+
+    @Test
+    void testDeleteProductNotFound() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Not Deleted");
+        product.setProductQuantity(5);
+        productRepository.create(product);
+
+        productRepository.delete("9");
+
+        assertNotNull(productRepository.findById("eb558e9f-1c39-460e-8860-71af6af63bd6"));
+    }
+
+
+
 }
