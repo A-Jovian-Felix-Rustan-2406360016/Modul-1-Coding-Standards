@@ -52,6 +52,6 @@ class CreateProductFunctionalTest {
                 break;
             }
         }
-        assertTrue(isProductFound, "Product name should be found in the product list table");
+        assertTrue(isProductFound, "Nama Product seharusnya ada di list");
     }
 }
