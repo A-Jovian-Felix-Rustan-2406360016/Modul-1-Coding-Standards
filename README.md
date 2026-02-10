@@ -7,11 +7,11 @@ beberapa prinsip clean code dan secure coding yang sudah saya terapkan secara ti
 - Single Responsibilities : Setiap class ataupun method memiliki tanggung jawab yang jelas untuk bagiannya masing-masing
 - Penamaan yang jelas : Method - method seperti create, edit, delete, dan findById memiliki nama yang ringkas dan jelas sesuai dengan fungsinya sehingga mudah dibaca dan dipahami
 - Kode terstruktur : Pemisahan antara repository, service, controller, dan model membuat kode lebih terstruktur dan mudah dimaintain
-- Encapsulation data : Data disimpan sebagai variable private sehingga tidak bisa asal akses dar luar class
+- Encapsulation data : Data disimpan sebagai variable private sehingga tidak bisa asal akses dari luar class
 - Penggunaan identifier : Proses edit dan delete dilakukan berdasarkan id product yang unik sehingga lebih aman
 
 Namun, saya juga menyadari ada beberapa hal yang masih kurang dari code saya. Hal - hal seperti return null pada beberapa method berpotensi menyebabkan
-NullPointerException jika tidak dihandle dengan tepat. Lalu, saya juga belum menambahkan validasi input tambahan sehingga masih bisa ditambahkan untuk menghindari hal yang
+NullPointerException jika tidak dihandle dengan tepat. Solusinya, kita bisa diganti dengan custom exception agar lebih aman. Lalu, saya juga belum menambahkan validasi input tambahan sehingga masih bisa ditambahkan untuk menghindari hal yang
 tidak diinginkan. Terakhir, baik code saya maupun tutorial masih menggunakan ArrayList sebagai penyimpanan dimana tidak ideal karena datanya akan ke reset
 setiap kali kita mulai run.
 
@@ -26,4 +26,8 @@ dijalankan, tetapi bisa saja test tersebut bisa tidak akurat. Dengan kata lain, 
 gagal mendeteksi bug tersembunyi. Oleh karena itu, code coverage sebaiknya digunakan sebagai alat bantu, bukan sebagai satu-satunya acuan. Unit test harus memiliki
 assertion yang jelas, mencakup berbagai kemungkinan skenario agar dapat benar-benar menunjukkan kebenaran program.
 
-2.
+2. Jika saya membuat functional test suite baru untuk memverifikasi jumlah item pada product list dengan menggunakan struktur, setup, dan instansiasi variable yang mirip dengan sebelumnya, maka dari sisi fungsional tidak akan terpengaruh
+apapun dan tetap berjalan dengan baik. Namun, dari sisi clean code, hal ini bisa menimbulkan masalah. Duplikasi kode seperti setup dan konfigurasi base url melanggar prinsip clean code. Jika suatu saat kita ingin melakukan perubahan konfigurasi,
+maka perubahan tersebut juga harus dilakukan di banyak class test dimana dapat meningkatkan risiko inkonsistensi dan error. Solusinya, kita bisa memisahkan setup yang bersifat umum ke suatu class dasar (base test class). Dengan pendekatan ini,
+setiap functional test hanya berisi skenario pengujian spesifik tanpa harus melakukan setup yang berulang. Kualitas kode pun akan tetap terjaga dan proses pengembangan maupun perubahan di kemudian hari cenderung lebih mudah dan aman. Namun di source code
+ini, saya belum menerapkan hal tersebut karena class testnya masih cenderung sedikit. Tetapi, secara best practice, hal ini cukup penting.
